@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 import re
@@ -42,11 +43,18 @@ class GenerationResult:
 class ConvexSingleShotAgent(BaseAgent):
     """Make one model call, parse Convex markdown, and upload the files."""
 
-    def __init__(self, api: ApiName = "auto", *args: Any, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        api: ApiName = "auto",
+        reasoning_effort: str = "medium",
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
         super().__init__(*args, **kwargs)
         if api not in {"auto", "openai", "gemini"}:
             raise ValueError("api must be one of: auto, openai, gemini")
         self._api: ApiName = api
+        self._reasoning_effort = reasoning_effort
 
     @staticmethod
     @override
@@ -123,6 +131,24 @@ class ConvexSingleShotAgent(BaseAgent):
     def _env(self, name: str) -> str | None:
         return self.extra_env.get(name) or os.environ.get(name)
 
+    @staticmethod
+    async def _post_with_retries(
+        client: httpx.AsyncClient,
+        url: str,
+        *,
+        headers: dict[str, str],
+        payload: dict[str, Any],
+    ) -> httpx.Response:
+        """Match Convex's five retries for rate limits and transient 5xx errors."""
+        for attempt in range(6):
+            response = await client.post(url, headers=headers, json=payload)
+            retryable = response.status_code == 429 or response.status_code >= 500
+            if not retryable or attempt == 5:
+                response.raise_for_status()
+                return response
+            await asyncio.sleep(min(2**attempt, 16))
+        raise AssertionError("retry loop must return or raise")
+
     async def _generate_openai(
         self, prompt: str, model: str
     ) -> GenerationResult:
@@ -139,7 +165,12 @@ class ConvexSingleShotAgent(BaseAgent):
             if base_url.endswith("/chat/completions")
             else base_url + "/chat/completions"
         )
-        request_model = model.split("/", 1)[1] if model.startswith("openai/") else model
+        if "generativelanguage.googleapis.com" in base_url and model.startswith("google/"):
+            request_model = model.split("/", 1)[1]
+        else:
+            request_model = (
+                model.split("/", 1)[1] if model.startswith("openai/") else model
+            )
         payload = {
             "model": request_model,
             "messages": [
@@ -153,16 +184,21 @@ class ConvexSingleShotAgent(BaseAgent):
             else "max_tokens"
         )
         payload[token_parameter] = 16384
+        if "openrouter.ai" in base_url:
+            # Match Convex's OpenRouter request transformation exactly.
+            payload["reasoning"] = {"effort": self._reasoning_effort}
+        elif "generativelanguage.googleapis.com" in base_url:
+            payload["reasoning_effort"] = self._reasoning_effort
         async with httpx.AsyncClient(timeout=900) as client:
-            response = await client.post(
+            response = await self._post_with_retries(
+                client,
                 url,
                 headers={
                     "Authorization": "Bearer " + api_key,
                     "Content-Type": "application/json",
                 },
-                json=payload,
+                payload=payload,
             )
-            response.raise_for_status()
             body = response.json()
         choices = body.get("choices") or []
         if not choices:
@@ -208,15 +244,15 @@ class ConvexSingleShotAgent(BaseAgent):
             "generation_config": {"max_output_tokens": 16384},
         }
         async with httpx.AsyncClient(timeout=900) as client:
-            response = await client.post(
+            response = await self._post_with_retries(
+                client,
                 url,
                 headers={
                     "x-goog-api-key": api_key,
                     "Content-Type": "application/json",
                 },
-                json=payload,
+                payload=payload,
             )
-            response.raise_for_status()
             body = response.json()
         steps = body.get("steps") or []
         output_steps = [step for step in steps if step.get("type") == "model_output"]
@@ -261,3 +297,44 @@ class ConvexSingleShotAgent(BaseAgent):
                 raise ValueError("Unsafe generated path: " + relative)
             files[relative] = match.group(2).strip()
         return files
+
+
+class ConvexReplayAgent(ConvexSingleShotAgent):
+    """Replay saved single-shot responses to debug or rescore without API calls."""
+
+    def __init__(self, replay_run: str, tasks_dir: str, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self._responses: dict[str, tuple[str, dict[str, Any]]] = {}
+        run_root = Path(replay_run)
+        task_root = Path(tasks_dir)
+        for result_path in run_root.glob("*/result.json"):
+            result = json.loads(result_path.read_text())
+            task_name = result.get("task_name", "").split("/")[-1]
+            response_path = result_path.parent / "agent/model-response.md"
+            instruction_path = task_root / task_name / "instruction.md"
+            if response_path.exists() and instruction_path.exists():
+                self._responses[instruction_path.read_text()] = (
+                    response_path.read_text(),
+                    result.get("agent_result") or {},
+                )
+
+    @staticmethod
+    @override
+    def name() -> str:
+        return "convex-single-shot-replay"
+
+    @override
+    async def _generate(self, prompt: str, model: str) -> GenerationResult:
+        if prompt not in self._responses:
+            raise KeyError("No saved response matches this exact instruction")
+        response, agent_result = self._responses[prompt]
+        metadata = agent_result.get("metadata") or {}
+        return GenerationResult(
+            text=response,
+            input_tokens=agent_result.get("n_input_tokens"),
+            output_tokens=agent_result.get("n_output_tokens"),
+            cached_tokens=agent_result.get("n_cache_tokens"),
+            finish_reason=metadata.get("finish_reason") or "replayed",
+            api="replay",
+            model=metadata.get("model") or model,
+        )

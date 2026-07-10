@@ -62,10 +62,15 @@ For the direct OpenAI API, set OPENAI_API_KEY and use an OpenAI model:
 
 | Model | API | Tasks | Passed | Score |
 |---|---|---:|---:|---:|
-| Gemini 3.5 Flash | Google Gemini Interactions | 76 | 19 | 25.0% |
+| Gemini 3.5 Flash | OpenRouter, Convex native | 76 | 44 | 57.9% |
+| Gemini 3.5 Flash | OpenRouter + Harbor/Daytona | 76 | 42 | 55.3% |
 
-See the [full Gemini report](reports/gemini-3.5-flash-native-2026-07-10.md)
-and [machine-readable results](reports/gemini-3.5-flash-native-2026-07-10.json).
+See the [parity report](reports/gemini-3.5-flash-parity-2026-07-10.md).
+
+The Harbor score is 2 tasks (2.6 percentage points) below the independent
+native Convex run. All 76 prompts and all 76 parsed response file maps were
+verified against Convex's implementations. The final Harbor rescore ran in
+Daytona EU with zero infrastructure exceptions.
 
 The [live Convex dashboard](https://convex-evals.netlify.app/model/k575nhxzwg69c00qa4mjr20dsx873bws)
 reports Gemini 3.5 Flash at 67.5% with guidelines
