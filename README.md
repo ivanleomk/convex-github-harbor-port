@@ -47,6 +47,14 @@ For the direct OpenAI API, set OPENAI_API_KEY and use an OpenAI model:
 See the [full Gemini report](reports/gemini-3.5-flash-native-2026-07-10.md)
 and [machine-readable results](reports/gemini-3.5-flash-native-2026-07-10.json).
 
+The [live Convex dashboard](https://convex-evals.netlify.app/model/k575nhxzwg69c00qa4mjr20dsx873bws)
+reports Gemini 3.5 Flash at 67.5% with guidelines
+and 70.9% without guidelines across its displayed run aggregates. Its latest
+completed direct-Google runs scored 43/76 (56.6%) with guidelines and 48/76
+(63.2%) without guidelines. A paired five-task Harbor smoke test showed the
+same direction: 2/5 with guidelines versus 3/5 without guidelines. This small
+slice is diagnostic only and is not a benchmark-wide uplift estimate.
+
 The direct OpenAI run is pending because the configured key returned HTTP 401
 from api.openai.com; no OpenAI result is claimed here.
 

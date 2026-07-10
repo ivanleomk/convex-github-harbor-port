@@ -114,15 +114,22 @@ trials completed. The merged score above contains exactly one valid result for e
 
 ## Comparison with Convex
 
-The pinned official benchmark does not list Gemini 3.5 Flash among its published model
-configurations, so there is no exact official Gemini 3.5 Flash score for an apples-to-apples
-numeric comparison. This port instead verifies the parity-critical pieces directly: the
-rendered system and user prompts are identical, the response parser matches upstream, and
-the original scorer and graders execute inside each Harbor task.
+The live Convex dashboard now has an exact Gemini 3.5 Flash entry. It reports aggregate
+pass rates of 67.5% with guidelines and 70.9% without guidelines. The latest completed
+direct-Google runs displayed there scored 43/76 (56.6%) with guidelines and 48/76
+(63.2%) without guidelines. Convex therefore currently observes a negative guidelines
+uplift: -3.4 percentage points in the aggregate and -6.6 points for the latest pair.
 
-Results should not be compared numerically with a different Gemini release or with results
-served through a different provider/API, because the underlying model and inference path
-would differ.
+Our paired five-task smoke test had the same direction: 2/5 (40%) with guidelines and
+3/5 (60%) without guidelines, or -20 points for guidelines. Five selected fundamentals
+tasks are too small and non-random for a benchmark-wide estimate; this only confirms that
+both prompt variants run correctly.
+
+The Harbor full result is pinned to an older source commit, while the live dashboard moves
+with the benchmark. The 25.0% Harbor score should therefore not yet be presented as a
+replication of the current dashboard score. The parity-critical pieces for the pinned port
+remain verified directly: identical rendered prompts, the upstream response parser, and
+the original scorer and graders.
 
 The machine-readable merged results, including every task reward and its source run, are in
 the adjacent JSON file.
