@@ -1,0 +1,24 @@
+schema_version = "1.3"
+artifacts = ["/logs/verifier/summary.json"]
+[task]
+name = "benchmark-lab/002-queries__005-creation_time"
+description = "Official Convex eval 002-queries/005-creation_time, without guidelines."
+keywords = ["convex", "typescript", "coding"]
+[[task.authors]]
+name = "Convex"
+[metadata]
+source_repository = "https://github.com/get-convex/convex-evals.git"
+source_commit = "5c723ca8177c3ae167e505a95c755bd398f9dea2"
+source_eval = "002-queries/005-creation_time"
+experiment = "no_guidelines"
+[verifier]
+timeout_sec = 1200.0
+[agent]
+timeout_sec = 900.0
+[environment]
+network_mode = "public"
+build_timeout_sec = 900.0
+os = "linux"
+mcp_servers = []
+[environment.env]
+[solution.env]

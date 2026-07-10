@@ -15,6 +15,22 @@ benchmark, pinned to commit
 - Allows forced routing through the custom agent option api=gemini or
   api=openai.
 
+## Task variants
+
+- `tasks/` contains the official `with_guidelines` prompt variant.
+- `tasks-no-guidelines/` contains the official `no_guidelines` prompt variant.
+
+Each `instruction.md` begins with Convex's required output format. The `...`
+inside the example `package.json`, `tsconfig.json`, and `convex/schema.ts`
+code fences are intentional placeholders showing the response structure; they
+are not empty starter files. The actual eval request appears at the bottom
+under `Now, implement a Convex backend...` and is copied verbatim from that
+eval's upstream `TASK.txt`.
+
+The empty `[environment.env]` and `[solution.env]` tables in `task.toml` are
+valid Harbor configuration and mean that the task supplies no additional
+environment variables. They do not remove content from the model prompt.
+
 The verifier clones the pinned official source after generation, keeping
 reference answers and graders unavailable during the model call.
 
@@ -28,6 +44,10 @@ Install Harbor, set provider credentials, and run:
       --model gemini/gemini-3.5-flash \
       --ak api=gemini \
       -n 30
+
+To run the same benchmark without the embedded Convex guidelines, change
+`--path tasks` to `--path tasks-no-guidelines`. No agent or grader change is
+required.
 
 For the direct OpenAI API, set OPENAI_API_KEY and use an OpenAI model:
 
