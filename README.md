@@ -49,6 +49,41 @@ To run the same benchmark without the embedded Convex guidelines, change
 `--path tasks` to `--path tasks-no-guidelines`. No agent or grader change is
 required.
 
+## Kaggle Model Proxy
+
+Install the official [Kaggle CLI](https://github.com/Kaggle/kaggle-cli) and
+authenticate your Kaggle account:
+
+    pip install --upgrade kaggle
+    kaggle auth login
+
+Mint short-lived Model Proxy credentials. The CLI writes the proxy URL, API
+key, expiry time, and available model names to the requested environment file:
+
+    kaggle benchmarks auth --yes --env-file .env.kaggle
+
+Load those credentials and map Kaggle's OpenAI-compatible `/openapi` endpoint
+to the variables consumed by the single-shot agent:
+
+    set -a
+    . ./.env.kaggle
+    set +a
+    export OPENAI_API_KEY="$MODEL_PROXY_API_KEY"
+    export OPENAI_BASE_URL="${MODEL_PROXY_URL%/}/openapi"
+
+Confirm the model name against `LLMS_AVAILABLE` in the generated environment
+file, then run Harbor through the OpenAI-compatible handler:
+
+    PYTHONPATH=. harbor run \
+      --path tasks \
+      --agent agent.convex_single_shot:ConvexSingleShotAgent \
+      --model google/gemini-3.5-flash \
+      --ak api=openai \
+      -n 5
+
+Kaggle credentials are temporary. Re-run `kaggle benchmarks auth` after
+`MODEL_PROXY_EXPIRY_TIME`, and never commit `.env.kaggle`.
+
 For the direct OpenAI API, set OPENAI_API_KEY and use an OpenAI model:
 
     PYTHONPATH=. harbor run \
@@ -62,10 +97,14 @@ For the direct OpenAI API, set OPENAI_API_KEY and use an OpenAI model:
 
 | Model | API | Tasks | Passed | Score |
 |---|---|---:|---:|---:|
+| Claude Haiku 4.5 | OpenRouter + Harbor/Daytona | 76 | 53 | 69.7% |
 | Gemini 3.5 Flash | OpenRouter, Convex native | 76 | 44 | 57.9% |
 | Gemini 3.5 Flash | OpenRouter + Harbor/Daytona | 76 | 42 | 55.3% |
+| GPT-5 Mini | OpenRouter + Harbor/Daytona | 76 | 38 | 50.0% |
 
 See the [parity report](reports/gemini-3.5-flash-parity-2026-07-10.md).
+The [multi-model report](reports/multimodel-2026-07-10.md) includes category
+breakdowns for Claude Haiku 4.5, Gemini 3.5 Flash, and GPT-5 Mini.
 
 The Harbor score is 2 tasks (2.6 percentage points) below the independent
 native Convex run. All 76 prompts and all 76 parsed response file maps were
