@@ -87,9 +87,11 @@ def main():
         )
     markdown = f"""# Gemini 3.5 Flash — full benchmark report
 
-Date: 2026-07-10  
-Benchmark: official get-convex/convex-evals at commit 5c723ca8177c3ae167e505a95c755bd398f9dea2  
-Model/API: gemini-3.5-flash through the native Google Gemini Interactions API  
+Date: 2026-07-10
+
+Benchmark: official get-convex/convex-evals at commit 5c723ca8177c3ae167e505a95c755bd398f9dea2
+
+Model/API: gemini-3.5-flash through the native Google Gemini Interactions API
 Agent: one model call per task, exact upstream prompt, upstream response parser and graders
 
 ## Result
