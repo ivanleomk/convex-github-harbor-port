@@ -1,0 +1,505 @@
+{
+  "model": "gemini-3.5-flash",
+  "api": "Google Gemini Interactions API",
+  "benchmark_commit": "5c723ca8177c3ae167e505a95c755bd398f9dea2",
+  "total": 76,
+  "passed": 19,
+  "failed": 57,
+  "score": 0.25,
+  "primary_valid": 50,
+  "primary_exceptions": 26,
+  "retry_valid": 26,
+  "tokens": {
+    "input": 444000,
+    "cached": 140419,
+    "output": 62041
+  },
+  "categories": {
+    "000-fundamentals": {
+      "passed": 1,
+      "total": 10
+    },
+    "001-data_modeling": {
+      "passed": 6,
+      "total": 15
+    },
+    "002-queries": {
+      "passed": 8,
+      "total": 24
+    },
+    "003-mutations": {
+      "passed": 2,
+      "total": 8
+    },
+    "004-actions": {
+      "passed": 1,
+      "total": 8
+    },
+    "005-idioms": {
+      "passed": 0,
+      "total": 8
+    },
+    "006-clients": {
+      "passed": 1,
+      "total": 3
+    }
+  },
+  "tasks": [
+    {
+      "task": "000-fundamentals__000-empty_functions",
+      "category": "000-fundamentals",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "000-fundamentals__001-basic_schema",
+      "category": "000-fundamentals",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "000-fundamentals__002-basic_http_endpoint",
+      "category": "000-fundamentals",
+      "reward": 1.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "000-fundamentals__003-crons",
+      "category": "000-fundamentals",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "000-fundamentals__004-scheduler",
+      "category": "000-fundamentals",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "000-fundamentals__005-function_calling",
+      "category": "000-fundamentals",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "000-fundamentals__006-database_crud",
+      "category": "000-fundamentals",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "000-fundamentals__007-basic_file_storage",
+      "category": "000-fundamentals",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "000-fundamentals__008-helper_fns",
+      "category": "000-fundamentals",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "000-fundamentals__009-returns_validator",
+      "category": "000-fundamentals",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__000-simple_datatypes",
+      "category": "001-data_modeling",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__001-compound_datatypes",
+      "category": "001-data_modeling",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__002-foreign_key",
+      "category": "001-data_modeling",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__003-single_column_index",
+      "category": "001-data_modeling",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "001-data_modeling__004-multi_column_index",
+      "category": "001-data_modeling",
+      "reward": 1.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__005-many_to_many",
+      "category": "001-data_modeling",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "001-data_modeling__006-literals",
+      "category": "001-data_modeling",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__007-schema_evolution",
+      "category": "001-data_modeling",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__008-nullable_partial",
+      "category": "001-data_modeling",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "001-data_modeling__009-normalize_json",
+      "category": "001-data_modeling",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__010-discriminated_union",
+      "category": "001-data_modeling",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__011-deconstruct_validators",
+      "category": "001-data_modeling",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "001-data_modeling__012-denormalize_for_index",
+      "category": "001-data_modeling",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "001-data_modeling__013-unbounded_array",
+      "category": "001-data_modeling",
+      "reward": 1.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "001-data_modeling__014-heartbeat_isolation",
+      "category": "001-data_modeling",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__000-all_rows",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__001-single_column_index",
+      "category": "002-queries",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "002-queries__002-userspace_filter",
+      "category": "002-queries",
+      "reward": 1.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__003-multicolumn_equality",
+      "category": "002-queries",
+      "reward": 1.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__004-range_condition",
+      "category": "002-queries",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "002-queries__005-creation_time",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__006-three_level_join",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__007-aggregation",
+      "category": "002-queries",
+      "reward": 1.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__008-group_by",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__009-text_search",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "002-queries__010-parallel_fetch",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__011-denormalize_pagination",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__012-index_and_filter",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__013-async_iterator_filter",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__014-select_distinct",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "002-queries__015-pagination",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "002-queries__016-pagination_index",
+      "category": "002-queries",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "002-queries__017-pagination_join",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__018-pagination_returns_validator",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "002-queries__019-no_scheduler",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "002-queries__020-text_search_join",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__021-intersection",
+      "category": "002-queries",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "002-queries__022-unbounded_query_no_collect",
+      "category": "002-queries",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "002-queries__023-count_without_collect",
+      "category": "002-queries",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "003-mutations__000-delete",
+      "category": "003-mutations",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "003-mutations__001-insert",
+      "category": "003-mutations",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "003-mutations__002-patch",
+      "category": "003-mutations",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "003-mutations__003-patch_nested",
+      "category": "003-mutations",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "003-mutations__004-cascade_delete",
+      "category": "003-mutations",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "003-mutations__005-cascade_delete_nested",
+      "category": "003-mutations",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "003-mutations__006-no_storage",
+      "category": "003-mutations",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "003-mutations__007-batch_delete_self_schedule",
+      "category": "003-mutations",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "004-actions__000-fetch",
+      "category": "004-actions",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "004-actions__001-run_mutation",
+      "category": "004-actions",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "004-actions__002-run_query_mutation",
+      "category": "004-actions",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "004-actions__003-mutation_schedule_action",
+      "category": "004-actions",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "004-actions__004-storage",
+      "category": "004-actions",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "004-actions__005-storage_http_action",
+      "category": "004-actions",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "004-actions__006-node",
+      "category": "004-actions",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "004-actions__007-http_action_routing",
+      "category": "004-actions",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "005-idioms__000-internal_fns",
+      "category": "005-idioms",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "005-idioms__001-file_organization",
+      "category": "005-idioms",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "005-idioms__002-batch_queries",
+      "category": "005-idioms",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "005-idioms__003-authorization",
+      "category": "005-idioms",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "005-idioms__004-authentication_guard",
+      "category": "005-idioms",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "005-idioms__005-convex_testing",
+      "category": "005-idioms",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "005-idioms__006-typed_env",
+      "category": "005-idioms",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "005-idioms__007-explicit_table_names",
+      "category": "005-idioms",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "006-clients__000-use_query",
+      "category": "006-clients",
+      "reward": 0.0,
+      "source": "primary-concurrency-30"
+    },
+    {
+      "task": "006-clients__001-use_mutation",
+      "category": "006-clients",
+      "reward": 1.0,
+      "source": "retry-concurrency-5"
+    },
+    {
+      "task": "006-clients__002-use_paginated_query",
+      "category": "006-clients",
+      "reward": 0.0,
+      "source": "retry-concurrency-5"
+    }
+  ]
+}

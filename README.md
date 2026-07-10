@@ -25,24 +25,34 @@ Install Harbor, set provider credentials, and run:
     PYTHONPATH=. harbor run \
       --path tasks \
       --agent agent.convex_single_shot:ConvexSingleShotAgent \
-      --model google/gemini-3.5-flash \
+      --model gemini/gemini-3.5-flash \
+      --ak api=gemini \
+      -n 30
+
+For the direct OpenAI API, set OPENAI_API_KEY and use an OpenAI model:
+
+    PYTHONPATH=. harbor run \
+      --path tasks \
+      --agent agent.convex_single_shot:ConvexSingleShotAgent \
+      --model openai/gpt-5 \
       --ak api=openai \
-      --n-tasks 5 \
-      -n 2
+      -n 30
 
-For Kaggle's Model Proxy:
+## Results
 
-    kaggle benchmarks auth -y --env-file .env
-    set -a
-    . ./.env
-    set +a
-    export OPENAI_API_KEY="$MODEL_PROXY_API_KEY"
-    export OPENAI_BASE_URL="\${MODEL_PROXY_URL%/}/openapi"
+| Model | API | Tasks | Passed | Score |
+|---|---|---:|---:|---:|
+| Gemini 3.5 Flash | Google Gemini Interactions | 76 | 19 | 25.0% |
+
+See the [full Gemini report](reports/gemini-3.5-flash-native-2026-07-10.md)
+and [machine-readable results](reports/gemini-3.5-flash-native-2026-07-10.json).
+
+The direct OpenAI run is pending because the configured key returned HTTP 401
+from api.openai.com; no OpenAI result is claimed here.
 
 ## Validation
 
 - Harbor task validation: 76/76.
-- Kaggle Model Proxy shell smoke: google/gemini-3.5-flash returned HTTP 200.
-- Five-task sample with concurrency 2: 4/5 passed, no infrastructure
-  exceptions.
+- Native Gemini full benchmark: 76/76 valid task results after retrying only
+  infrastructure exceptions from the concurrency-30 stress run.
 - Prompt equality and parser equality are checked by tools/check_parity.py.

@@ -146,8 +146,13 @@ class ConvexSingleShotAgent(BaseAgent):
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": prompt},
             ],
-            "max_tokens": 16384,
         }
+        token_parameter = (
+            "max_completion_tokens"
+            if "api.openai.com" in base_url
+            else "max_tokens"
+        )
+        payload[token_parameter] = 16384
         async with httpx.AsyncClient(timeout=900) as client:
             response = await client.post(
                 url,
